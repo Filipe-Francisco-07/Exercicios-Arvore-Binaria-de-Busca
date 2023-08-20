@@ -8,10 +8,10 @@ public class Main {
 		// TODO Auto-generated method stub
 				
 		SearchTree tree = new SearchTree();		
-		tree.insert(10);
-		tree.insert(20);
-		tree.insert(13);
-		tree.insert(40);
+		tree.inserirSemRecursividade(10);
+		tree.inserirSemRecursividade(20);
+		tree.inserirSemRecursividade(13);
+		tree.inserirSemRecursividade(40);
 		tree.insert(3);
 		tree.insert(1232);
 		tree.insert(2734);

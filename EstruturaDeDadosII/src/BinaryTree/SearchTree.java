@@ -388,6 +388,38 @@ public class SearchTree {
         verDescendentes(nodo.left);
         verDescendentes(nodo.right);
     }
+    
+    public void inserirSemRecursividade(int valor) {
+        Nodo novoNodo = new Nodo(valor);
+
+        if (raiz == null) {
+            raiz = novoNodo;
+            tamanho_arvore++;
+            return;
+        }
+
+        Nodo nodo = raiz;
+        Nodo aux;
+
+        while (true) {
+        	aux = nodo;
+            if (valor < nodo.key) {
+            	nodo = nodo.left;
+                if (nodo == null) {
+                	aux.left = novoNodo;
+                    tamanho_arvore++;
+                    return;
+                }
+            } else {
+            	nodo = nodo.right;
+                if (nodo == null) {
+                	aux.right = novoNodo;
+                    tamanho_arvore++;
+                    return;
+                }
+            }
+        }
+    }
 	 
 	 
 }
