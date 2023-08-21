@@ -20,35 +20,35 @@ public class Main {
 		
 		System.out.println("Before removing:");
 		
-		tree.showInOrder();
+		tree.mostrarEmOrdem();
 		
 		tree.remove(25);
 		tree.remove(22);
 		
 		System.out.println("After removing:");
 		
-		tree.showInUnGrownOrder();
+		tree.mostrarOrdemDescente();
 		
 		System.out.println("Leveling order:");
 		
-		tree.showInLevelingOrder();
+		tree.mostrarEmOrdemDeNivel();
 		
 		//a) Mostrar o maior número
-		tree.showBiggestNumber();
+		tree.mostrarMaiorNumero();
 		
 		//b) Mostrar o menor número
-		tree.showSmallestNumber();
+		tree.mostrarMenorNumero();
 
 		//c) Mostrar os nós folhas
 		System.out.println("Nós folhas:");
 		tree.mostrarFolha();
 		
 		//d) Mostrar os nós ancestrais de um nó
-		System.out.println("Ancestrais: ");
+		System.out.println("Ancestrais do 40: ");
 		tree.verAncestral(40);
 		
 		//e) Mostrar os nós descendentes de um nó
-		System.out.println("\nDescendentes: ");
+		System.out.println("\nDescendentes do 40: ");
 		tree.verDescendentes(40);
 		
 		//f) Mostrar a subárvore da direita de um nó
@@ -67,7 +67,7 @@ public class Main {
 
 		//i) Mostrar somente os números pares
 		System.out.println("Pares:");
-		tree.showJustPairs();
+		tree.mostrarPares();
 		
 		//j) Mostrar o nível de um nodo
 		int nivel = tree.verNivelDoNodo(40);
@@ -78,10 +78,13 @@ public class Main {
 		System.out.println("Altura da árvore: "+altura);
 		
 		//l) Mostra o tamanho da árvore
-		System.out.println("Tamanho da árvore: "+tree.getTamanho_arvore());
+		tree.mostrarTamanhoDaArvore();
 		
 		//m) Inserir um novo item na árvore, mas de forma não recursiva	
+		tree.inserirSemRecursividade(44);
 		
+		System.out.println("Lista com o 44 inserido sem recursividade: ");
+		tree.mostrarEmOrdem();
 		
 	}
 }
