@@ -7,48 +7,35 @@ public class Main {
 
 		ArvoreAVL aavl = new ArvoreAVL();
 		
-		aavl.inserir(2);
 		aavl.inserir(5);
 		aavl.inserir(7);
 		aavl.inserir(1212);
 		aavl.inserir(123);
 		aavl.inserir(11);
+		aavl.inserir(7);
+		aavl.inserir(2);
 		
 		aavl.mostrarEmOrdem();
-		System.out.println("\nPrimos: ");
-		aavl.verNosPrimos();
-		
 		if(aavl.verAvl(aavl.raiz)) {
 			System.out.println("e uma avl ");
 		}
 		
-		aavl.remover(11);
+		aavl.remove(1212);
 		
-		System.out.println("removendo o 11 ");
+		System.out.println("removendo o 1212 ");
 		aavl.mostrarEmOrdem();
-
 		
+		aavl.verNosPrimos();
+		
+		System.out.println("nodos nivel 1: ");
+		aavl.mostrarNosNoNivel(1);
+		
+		int somaImpar = aavl.somaNivelImpar();
+		System.out.println("Soma dos níveis ímpares: "+somaImpar);
 	}
 	
-	/*1) Desenhe a árvore AVL que resulta da inserção sucessiva das chaves Q-U-E-S-T-A-O-F-C-I-L.
-Após as inserções desenhe as árvores resultantes das retiradas dos elementos E e depois U.
+	/* fazer:
 
-2) Escreva o método de exclusão de um elemento da árvore AVL.
-
-
-4) Faça uma função que, dada uma árvore AVL, retorne à quantidade de nós que guardam
-números primos.
-
-5) Modificar o código da Árvore AVL para permitir a inserção de chaves duplicadas. Para fazer
-isso, você deve acrescentar um atributo adicional à classe Nodo que armazena quantas
-vezes uma chave específica foi inserida na árvore.
-Modifique também os métodos de mostrar a árvore e remoção para levar em consideração
-a contagem das chaves. Por exemplo, ao mostrar os nós da árvore, o método deve mostrar
-ou retornar, além da chave do nó, o número de ocorrências da chave.
-
-6) Escreva um método que receba um nível da arvore e mostre todos os nodos nesse nível
-
-7) Faça um método para somar os nós presentes nos níveis ímpares de uma árvore AVL.
 
 8) Monte uma arvore capaz de armazenar as seguintes informações: nome do município, área
 total do município (em km2) e população. A chave do nó para inserção deverá ser o nome

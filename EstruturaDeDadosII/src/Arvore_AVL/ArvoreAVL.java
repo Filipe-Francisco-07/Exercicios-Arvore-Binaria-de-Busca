@@ -2,52 +2,22 @@ package Arvore_AVL;
 
 public class ArvoreAVL {
 	private class Nodo{
-	private int dado, altd, alte;
+	private int dado, altd, alte, copy;
 	private Nodo dir,esq;
-
+	
+	
 	public Nodo(int dado) {
 		this.dado = dado;
 		dir = esq = null;
 		altd = alte = 0;
+		copy = 1;
+		
+
 	}
  }
 	
-	/*1) Desenhe a árvore AVL que resulta da inserção sucessiva das chaves Q-U-E-S-T-A-O-F-C-I-L.
-Após as inserções desenhe as árvores resultantes das retiradas dos elementos E e depois U.
-
-2) Escreva o método de exclusão de um elemento da árvore AVL.
-
-4) Faça uma função que, dada uma árvore AVL, retorne à quantidade de nós que guardam
-números primos.
-
-5) Modificar o código da Árvore AVL para permitir a inserção de chaves duplicadas. Para fazer
-isso, você deve acrescentar um atributo adicional à classe Nodo que armazena quantas
-vezes uma chave específica foi inserida na árvore.
-Modifique também os métodos de mostrar a árvore e remoção para levar em consideração
-a contagem das chaves. Por exemplo, ao mostrar os nós da árvore, o método deve mostrar
-ou retornar, além da chave do nó, o número de ocorrências da chave.
-
-6) Escreva um método que receba um nível da arvore e mostre todos os nodos nesse nível
-
-7) Faça um método para somar os nós presentes nos níveis ímpares de uma árvore AVL.
-
-8) Monte uma arvore capaz de armazenar as seguintes informações: nome do município, área
-total do município (em km2) e população. A chave do nó para inserção deverá ser o nome
-do município. Implemente também as funções abaixo:
-a. Contar o número de municípios, percorrendo os nós cadastrados na árvore.
-b. Mostrar apenas os nomes dos municípios com mais de X habitantes. Por exemplo, X
-pode ser 100.000 pessoas.
-c. Mostrar a densidade demográfica de cada cidade. A densidade demográfica é a
-relação entre a população e a área.
-d. Mostrar o somatório de área em km2 de todas as cidades juntas em relação ao
-território nacional (em porcentagem).
-e. Mostrar o nome da cidade com a maior população.
-
-Teste da Implementação:
-Crie testes para cada exercício para verificar se o código funciona conforme o esperado.
-Após o código de cada exercício acrescente prints dos testes realizados.*/
-
 	Nodo raiz;
+	int primos = 0;
 	public ArvoreAVL() {
 		raiz = null;
 	}
@@ -56,33 +26,31 @@ Após o código de cada exercício acrescente prints dos testes realizados.*/
 		raiz = inserirDado(raiz,dado);
 	}
 	
-	
-	public void verNosPrimos() {
-		int np = 0;
-		System.out.println("Temos "+verPrimos(raiz,np)+ " primos na arvore.");
+	public void inserirLetra(String letra) {
+		raiz = insereLetra(raiz,letra);
 	}
 	
-	private int verPrimos(Nodo raiz, int np) {
+	
+	public void verNosPrimos() {
+		verPrimos(raiz);
+		System.out.println("Temos "+primos+ " primos na arvore.");
+	}
+	
+	private void verPrimos(Nodo raiz) {
 
 			if (raiz != null) {
-				verPrimos(raiz.esq,np);
-				if(raiz.dado == 2) {
-					System.out.println(raiz.dado);
-					np++;
-					System.out.println("np:"+np);
-				}else
-				if(raiz.dado == 3) {
-					System.out.println(raiz.dado);
-					np++;
-				}else
-				if(raiz.dado % 2 != 0 && raiz.dado % 3 != 0) {
-					System.out.println(raiz.dado);
-					np++;
-					System.out.println("np:"+np);
+				verPrimos(raiz.esq);
+				if(raiz.dado == 2 || raiz.dado == 3) {
+					System.out.println(raiz.dado+" é primo");		
+					primos++;
+				}else if(!(raiz.dado % 2 ==0) && !(raiz.dado % 3 == 0) ) {
+					System.out.println(raiz.dado+" é primo");
+					primos++;
+
 				}
-				verPrimos(raiz.dir,np);
+				verPrimos(raiz.dir);
 			}
-			return np;
+			return;
 		
 	}
 
@@ -108,8 +76,280 @@ Após o código de cada exercício acrescente prints dos testes realizados.*/
 				raiz.altd = raiz.dir.alte + 1;
 			}
 			raiz = balanceamento(raiz);
+
+		}else {
+			raiz.copy++;
 		}
 		return raiz;
+	}
+	
+	private Nodo insereLetra(Nodo raiz, String  letra) {
+		int dado = verNumeroDaLetra(letra);
+
+		if (raiz == null) {
+			raiz = new Nodo(dado);
+			return raiz;
+
+		}
+		if (dado < raiz.dado) {
+			letra = verLetraDoNumero(dado);
+			raiz.esq = insereLetra(raiz.esq,letra);
+			if (raiz.esq.altd > raiz.esq.alte) {
+				raiz.alte = raiz.esq.altd + 1;
+			} else {
+				raiz.alte = raiz.esq.alte + 1;
+			}
+			raiz = balanceamento(raiz);
+		} else if (dado > raiz.dado) {
+			letra = verLetraDoNumero(dado);
+			raiz.dir = insereLetra(raiz.dir,letra);
+			if (raiz.dir.altd > raiz.dir.alte) {
+				raiz.altd = raiz.dir.altd + 1;
+			} else {
+				raiz.altd = raiz.dir.alte + 1;
+			}
+			raiz = balanceamento(raiz);
+		}else {
+			raiz.copy++;
+		}
+		return raiz;
+	}
+	
+	private String verLetraDoNumero(int dado) {
+		String letra = null;
+		switch(dado) {
+		case ( 1 ):
+			letra = "A";
+			break;	
+		case ( 2 ):
+			letra = "B";
+			break;
+		case ( 3 ):
+			letra = "C";
+			break;
+		case(4):
+			letra = "D";
+			break;
+		case(5):
+			letra = "E";
+			break;
+		case(6):
+			letra = "F";
+			break;
+		case(7):
+			letra = "G";
+			break;
+		case(8):
+			letra = "H";
+			break;
+		case(9):
+			letra = "I";
+			break;
+		case(10):
+			letra = "J";			
+			break;
+		case(11):
+			letra = "K";
+			break;
+		case(12):
+			letra = "L";
+			break;
+		case(13):
+			letra = "M";
+			break;
+		case(14):
+			letra = "N";
+			break;
+		case(15):
+			letra = "O";
+			break;
+		case(16):
+			letra = "P";
+			break;
+		case(17):
+			letra = "Q";
+			break;
+		case(18):
+			letra = "R";
+			break;
+		case(19):
+			letra = "S";
+			break;
+		case(20):
+			letra = "T";
+			break;
+		case(21):
+			letra = "U";
+			break;
+		case(22):
+			letra = "V";
+			break;
+		case(23):
+			letra = "W";
+			break;
+		case(24):
+			letra = "X";
+			break;
+		case(25):
+			letra = "Y";
+			break;
+		case(26):
+			letra = "Z";
+			break;
+		
+		}
+		return letra;
+	}
+	
+	private int verNumeroDaLetra(String letra) {
+		int dado = 0;
+		switch(letra) {
+		case ( "A" ):
+			dado = 1;
+			break;	
+		case ( "B" ):
+			dado = 2;
+			break;
+		case ( "C" ):
+			dado = 3;
+		break;
+		case("D"):
+			dado = 4;
+			break;
+		case("E"):
+			dado = 5;
+			break;
+		case("F"):
+			dado = 6;
+			break;
+		case("G"):
+			dado = 7;
+			break;
+		case("H"):
+			dado = 8;
+			break;
+		case("I"):
+			dado = 9;
+			break;
+		case("J"):
+			dado = 10;
+			break;
+		case("K"):
+			dado = 11;
+			break;
+		case("L"):
+			dado = 12;
+			break;
+		case("M"):
+			dado = 13;
+			break;
+		case("N"):
+			dado = 14;
+			break;
+		case("O"):
+			dado = 15;
+			break;
+		case("P"):
+			dado = 16;
+			break;
+		case("Q"):
+			dado = 17;
+			break;
+		case("R"):
+			dado = 18;
+			break;
+		case("S"):
+			dado = 19;
+			break;
+		case("T"):
+			dado = 20;
+			break;
+		case("U"):
+			dado = 21;
+			break;
+		case("V"):
+			dado = 22;
+			break;
+		case("W"):
+			dado = 23;
+			break;
+		case("X"):
+			dado = 24;
+			break;
+		case("Y"):
+			dado = 25;
+			break;
+		case("Z"):
+			dado = 26;
+			break;
+		
+		}
+		return dado;
+	}
+	
+	public void removeLetra(String letra ){
+		int chave = verNumeroDaLetra(letra);
+		raiz = removeLetra(raiz,chave);
+		
+	}
+	
+	private Nodo removeLetra(Nodo raiz, int chave) {
+		if(raiz == null) {
+			return null;
+		}
+		if(chave < raiz.dado) {
+			raiz.esq = removeLetra(raiz.esq,chave);
+			raiz.copy--;
+		}else if(chave > raiz.dado) {
+			raiz.dir = removeLetra(raiz.dir, chave);
+			raiz.copy--;
+		}else {
+			if(raiz.esq == null) {
+				return raiz.dir;
+			}else if(raiz.dir == null) {
+				return raiz.esq;
+			}else {
+				Nodo next = findNext(raiz.dir);
+				raiz.dado = next.dado;
+				raiz.dir = removeLetra(raiz.dir,next.dado);
+			}
+			raiz.copy--;
+		}
+	return raiz;
+	}
+	
+	public void remove(int chave) {
+		raiz = removeItem(raiz,chave);
+		
+	}
+	
+	private Nodo removeItem(Nodo raiz, int chave) {
+		if(raiz == null) {
+			return null;
+		}
+		if(chave < raiz.dado) {
+			raiz.esq = removeItem(raiz.esq,chave);
+		}else if(chave > raiz.dado) {
+			raiz.dir = removeItem(raiz.dir, chave);
+		}else {
+			if(raiz.esq == null) {
+				return raiz.dir;
+			}else if(raiz.dir == null) {
+				return raiz.esq;
+			}else {
+				Nodo next = findNext(raiz.dir);
+				raiz.dado = next.dado;
+				raiz.dir = removeItem(raiz.dir,next.dado);
+			}
+		}
+	return raiz;
+	}
+	
+	private Nodo findNext(Nodo nodo) {
+		while(nodo.esq != null) {
+			nodo = nodo.esq;
+		}
+		return nodo;
 	}
 
 	private Nodo balanceamento (Nodo raiz) {
@@ -200,24 +440,16 @@ Após o código de cada exercício acrescente prints dos testes realizados.*/
 		return aux1;
 	}
 	
-	public void remover(int dado) {
-		removeDado(raiz, dado);
+	public void mostrarLetraEmOrdem() {
+		mostrandoOrdenadoLetra(raiz);
 	}
-	private void removeDado(Nodo raiz, int dado) {
+	private void mostrandoOrdenadoLetra(Nodo raiz) {
+		String letra;
 		if (raiz != null) {
-			removeDado(raiz.esq,dado);
-			if(raiz.dado == dado) {
-				if(raiz.dir != null) {			
-				raiz.dado = raiz.dir.dado;
-				raiz.dir = null;
-				}else if(raiz.dir == null && raiz.esq != null) {
-					raiz.dado = raiz.esq.dado;
-					raiz.esq = null;
-				}
-				balanceamento(raiz);
-				return;
-			}
-			removeDado(raiz.dir,dado);
+			mostrandoOrdenadoLetra(raiz.esq);
+			letra = verLetraDoNumero(raiz.dado);
+			System.out.println(letra);
+			mostrandoOrdenadoLetra(raiz.dir);
 		}
 	}
 
@@ -227,8 +459,63 @@ Após o código de cada exercício acrescente prints dos testes realizados.*/
 	private void mostrandoOrdenado(Nodo raiz) {
 		if (raiz != null) {
 			mostrandoOrdenado(raiz.esq);
-			System.out.println(raiz.dado);
+			System.out.println(raiz.dado+" vezes adicionada: "+raiz.copy);
 			mostrandoOrdenado(raiz.dir);
 		}
 	}
+	
+	public void mostrarNosNoNivel(int nivelDesejado) {
+	    mostrarNosNoNivelRecursivo(raiz, nivelDesejado, 0);
+	}
+
+	private void mostrarNosNoNivelRecursivo(Nodo raiz, int nivelAlvo, int nivelAtual) {
+	    if (raiz == null) {
+	        return;
+	    }
+	    
+	    if (nivelAtual == nivelAlvo) {
+	        System.out.println(raiz.dado);
+	    }
+	    
+	    mostrarNosNoNivelRecursivo(raiz.esq, nivelAlvo, nivelAtual + 1);
+	    mostrarNosNoNivelRecursivo(raiz.dir, nivelAlvo, nivelAtual + 1);
+	}
+	
+	public int somaNivelImpar() {
+	    return somarNosImpares(raiz, 0);
+	}
+
+	private int somarNosImpares(Nodo raiz, int nivelAtual) {
+	    if (raiz == null) {
+	        return 0;
+	    }
+
+	    int soma = 0;
+	    if (nivelAtual % 2 != 0) {
+	        soma += raiz.dado;
+	    }
+
+	    soma += somarNosImpares(raiz.esq, nivelAtual + 1);
+	    soma += somarNosImpares(raiz.dir, nivelAtual + 1);
+	    return soma;
+	}
+	
+	/* fazer:
+
+	8) Monte uma arvore capaz de armazenar as seguintes informações: nome do município, área
+	total do município (em km2) e população. A chave do nó para inserção deverá ser o nome
+	do município. Implemente também as funções abaixo:
+	a. Contar o número de municípios, percorrendo os nós cadastrados na árvore.
+	b. Mostrar apenas os nomes dos municípios com mais de X habitantes. Por exemplo, X
+	pode ser 100.000 pessoas.
+	c. Mostrar a densidade demográfica de cada cidade. A densidade demográfica é a
+	relação entre a população e a área.
+	d. Mostrar o somatório de área em km2 de todas as cidades juntas em relação ao
+	território nacional (em porcentagem).
+	e. Mostrar o nome da cidade com a maior população.
+
+	Teste da Implementação:
+	Crie testes para cada exercício para verificar se o código funciona conforme o esperado.
+	Após o código de cada exercício acrescente prints dos testes realizados.*/
+
 }
